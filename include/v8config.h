@@ -220,7 +220,8 @@ path. Add it with -I<path> to the command line
   || defined(V8_TARGET_OS_LINUX) \
   || defined(V8_TARGET_OS_MACOS) \
   || defined(V8_TARGET_OS_WIN) \
-  || defined(V8_TARGET_OS_CHROMEOS)
+  || defined(V8_TARGET_OS_CHROMEOS) \
+  || defined(V8_TARGET_OS_NANVIX)
 #  error A target OS is defined but V8_HAVE_TARGET_OS is unset.
 # endif
 
@@ -247,6 +248,10 @@ path. Add it with -I<path> to the command line
 
 #ifdef V8_OS_WIN
 # define V8_TARGET_OS_WIN
+#endif
+
+#ifdef V8_OS_NANVIX
+# define V8_TARGET_OS_NANVIX
 #endif
 
 #endif  // V8_HAVE_TARGET_OS
