@@ -72,6 +72,10 @@
 #include <sys/resource.h>
 #endif
 
+#if defined(V8_OS_NANVIX)
+#define PTHREAD_STACK_MIN 4096
+#endif
+
 #if !defined(_AIX) && !defined(V8_OS_FUCHSIA) && !defined(V8_OS_NANVIX) && !V8_OS_ZOS
 #include <sys/syscall.h>
 #endif
