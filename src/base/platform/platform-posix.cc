@@ -72,7 +72,7 @@
 #include <sys/resource.h>
 #endif
 
-#if !defined(_AIX) && !defined(V8_OS_FUCHSIA) && !V8_OS_ZOS
+#if !defined(_AIX) && !defined(V8_OS_FUCHSIA) && !defined(V8_OS_NANVIX) && !V8_OS_ZOS
 #include <sys/syscall.h>
 #endif
 
@@ -141,7 +141,7 @@ int GetFlagsForMemoryPermission(OS::MemoryPermission access,
   flags |= (page_type == PageType::kShared) ? MAP_SHARED : MAP_PRIVATE;
   if (access == OS::MemoryPermission::kNoAccess ||
       access == OS::MemoryPermission::kNoAccessWillJitLater) {
-#if !V8_OS_AIX && !V8_OS_FREEBSD && !V8_OS_QNX
+#if !V8_OS_AIX && !V8_OS_FREEBSD && !V8_OS_QNX && !V8_OS_NANVIX
     flags |= MAP_NORESERVE;
 #endif  // !V8_OS_AIX && !V8_OS_FREEBSD && !V8_OS_QNX
 #if V8_OS_QNX
@@ -582,6 +582,8 @@ bool OS::DiscardSystemPages(void* address, size_t size) {
   if (ret != 0 && errno == EINVAL) {
     ret = madvise(reinterpret_cast<caddr_t>(address), size, MADV_DONTNEED);
   }
+#elif defined(V8_OS_NANVIX)
+  int ret = 0;
 #else
   int ret = madvise(address, size, MADV_DONTNEED);
 #endif
@@ -855,6 +857,8 @@ int OS::GetCurrentThreadIdInternal() {
   return static_cast<int>(zx_thread_self());
 #elif V8_OS_SOLARIS
   return static_cast<int>(pthread_self());
+#elif defined(V8_OS_NANVIX)
+  return static_cast<int>(pthread_self());
 #elif V8_OS_ZOS
   return gettid();
 #else
@@ -874,7 +878,7 @@ void OS::ExitProcess(int exit_code) {
 // POSIX date/time support.
 //
 
-#if !defined(V8_OS_FUCHSIA)
+#if !defined(V8_OS_FUCHSIA) && !defined(V8_OS_NANVIX)
 int OS::GetUserTime(uint32_t* secs, uint32_t* usecs) {
   struct rusage usage;
 
@@ -888,6 +892,9 @@ int OS::GetUserTime(uint32_t* secs, uint32_t* usecs) {
 int OS::GetPeakMemoryUsageKb() {
 #if defined(V8_OS_FUCHSIA)
   // Fuchsia does not implement getrusage()
+  return -1;
+#elif defined(V8_OS_NANVIX)
+  // TODO(v8:342445981): nanvix - rusage struct doesn't yet include ru_maxrss
   return -1;
 #elif defined(V8_OS_ZOS)
   // TODO(v8:342445981): zos - rusage struct doesn't yet include ru_maxrss
@@ -1344,7 +1351,7 @@ void Thread::SetThreadLocal(LocalStorageKey key, void* value) {
 // keep this version in POSIX as most Linux-compatible derivatives will
 // support it. MacOS and FreeBSD are different here.
 #if !defined(V8_OS_FREEBSD) && !defined(V8_OS_DARWIN) && !defined(_AIX) && \
-    !defined(V8_OS_SOLARIS)
+    !defined(V8_OS_SOLARIS) && !defined(V8_OS_NANVIX)
 
 namespace {
 #if DEBUG

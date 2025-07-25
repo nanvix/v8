@@ -160,6 +160,11 @@ path. Add it with -I<path> to the command line
 # define V8_OS_POSIX 1
 # define V8_OS_STRING "netbsd"
 
+#elif defined(__nanvix__)
+# define V8_OS_POSIX 1
+# define V8_OS_NANVIX 1
+# define V8_OS_STRING "nanvix"
+
 #elif defined(__OpenBSD__)
 # define V8_OS_BSD 1
 # define V8_OS_OPENBSD 1
