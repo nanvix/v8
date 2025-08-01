@@ -6747,7 +6747,7 @@ v8_component("v8_libbase") {
     defines = [ "BUILDING_V8_BASE_SHARED" ]
   }
 
-  if (is_posix || is_fuchsia) {
+  if (is_posix || is_fuchsia || is_nanvix) {
     sources += [
       "src/base/platform/platform-posix.cc",
       "src/base/platform/platform-posix.h",
@@ -6758,6 +6758,15 @@ v8_component("v8_libbase") {
         "src/base/platform/platform-posix-time.h",
       ]
     }
+  }
+
+  if (is_nanvix) {
+    sources += [
+      "src/base/debug/stack_trace_nanvix.cc",
+      "src/base/platform/platform-nanvix.cc",
+    ]
+    
+    defines = [ "_POSIX_C_SOURCE=200809L", "V8_OS_NANVIX" ]
   }
 
   if (is_linux || is_chromeos) {
