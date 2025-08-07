@@ -626,6 +626,22 @@ CPU::CPU()
       has_non_stop_time_stamp_counter_ = true;
     }
   }
+
+  #ifdef V8_OS_NANVIX
+      // Nanvix: Force-disable ALL SSE and AVX features
+      has_sse_ = false;
+      has_sse2_ = false;
+      has_sse3_ = false;
+      has_ssse3_ = false;
+      has_sse41_ = false;
+      has_sse42_ = false;
+      has_avx_ = false;
+      has_avx2_ = false;
+      has_avx_vnni_ = false;
+      has_avx_vnni_int8_ = false;
+      has_fma3_ = false;
+      has_f16c_ = false;
+  #endif  
 #elif V8_HOST_ARCH_ARM
 
 #if V8_OS_LINUX

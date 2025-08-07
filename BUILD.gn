@@ -1628,7 +1628,16 @@ config("toolchain") {
     if (is_win) {
       # Ensure no surprising artifacts from 80bit double math with x86.
       cflags += [ "/arch:SSE2" ]
-    }
+      } else if (is_nanvix) {
+        # Nanvix doesn't support SSE
+        cflags += [
+          "-march=i586",
+          "-mno-sse",
+          "-mno-sse2",
+          "-msoft-float",
+          "-mstackrealign",
+        ]
+      }
   }
   if (v8_current_cpu == "x64") {
     defines += [ "V8_TARGET_ARCH_X64" ]
