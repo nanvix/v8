@@ -629,6 +629,7 @@ CPU::CPU()
 
   #ifdef V8_OS_NANVIX
       // Nanvix: Force-disable ALL SSE and AVX features
+      // This MUST be in the x86/x64 section, not ARM!
       has_sse_ = false;
       has_sse2_ = false;
       has_sse3_ = false;
@@ -641,6 +642,8 @@ CPU::CPU()
       has_avx_vnni_int8_ = false;
       has_fma3_ = false;
       has_f16c_ = false;
+      // Also report no FPU since we're using soft float
+      has_fpu_ = false;
   #endif  
 #elif V8_HOST_ARCH_ARM
 
