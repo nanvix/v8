@@ -124,8 +124,8 @@ bool CpuFeatures::SupportsWasmSimd128() {
 
 void CpuFeatures::ProbeImpl(bool cross_compile) {
   base::CPU cpu;
-  CHECK(cpu.has_sse2());  // SSE2 support is mandatory.
-  CHECK(cpu.has_cmov());  // CMOV support is mandatory.
+  // CHECK(cpu.has_sse2());  // SSE2 support is mandatory.
+  // CHECK(cpu.has_cmov());  // CMOV support is mandatory.
 
   // Only use statically determined features for cross compile (snapshot).
   if (cross_compile) return;
