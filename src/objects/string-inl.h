@@ -304,7 +304,7 @@ struct common_type_handle_nullopt {
 namespace {
 V8_NOINLINE V8_PRESERVE_MOST bool TryReportUnreachable(Tagged<String> string,
                                                        Tagged<Map> map) {
-  thread_local int recursion = 0;
+  int recursion = 0;
   if (recursion > 0) {
     // On a recursive failure, dispatch onto the empty string. This will
     // likely cause out-of-bounds reads or potentially some other failure, but

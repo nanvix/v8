@@ -312,7 +312,7 @@ class V8_EXPORT_PRIVATE IsolateGroup final {
 #endif  // V8_COMPRESS_POINTERS
 
 #ifdef V8_COMPRESS_POINTERS_IN_MULTIPLE_CAGES
-  thread_local static IsolateGroup* current_;
+  static IsolateGroup* current_;
 #endif  // V8_COMPRESS_POINTERS_IN_MULTIPLE_CAGES
 
   std::unique_ptr<PagePool> page_pool_;

@@ -4017,7 +4017,7 @@ void Heap::InvokeIncrementalMarkingEpilogueCallbacks() {
 }
 
 namespace {
-thread_local Address pending_layout_change_object_address = kNullAddress;
+Address pending_layout_change_object_address = kNullAddress;
 
 #ifdef V8_ENABLE_SANDBOX
 class ExternalPointerSlotInvalidator

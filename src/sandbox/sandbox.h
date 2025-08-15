@@ -322,7 +322,7 @@ class V8_EXPORT_PRIVATE Sandbox {
   static bool first_four_gb_of_address_space_are_reserved_;
 
 #ifdef V8_COMPRESS_POINTERS_IN_MULTIPLE_CAGES
-  thread_local static Sandbox* current_;
+  static Sandbox* current_;
 #endif  // V8_COMPRESS_POINTERS_IN_MULTIPLE_CAGES
 };
 

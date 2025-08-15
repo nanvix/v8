@@ -45,8 +45,7 @@ namespace v8 {
 namespace internal {
 
 namespace {
-thread_local Tagged<HeapObject> pending_layout_change_object =
-    Tagged<HeapObject>();
+Tagged<HeapObject> pending_layout_change_object = Tagged<HeapObject>();
 }  // namespace
 
 // Verify that all objects are Smis.

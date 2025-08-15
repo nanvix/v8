@@ -132,11 +132,10 @@ class ExternalAssemblerBufferImpl : public AssemblerBuffer {
   const int size_;
 };
 
-alignas(
-    ExternalAssemblerBufferImpl) static thread_local char tls_singleton_storage
-    [sizeof(ExternalAssemblerBufferImpl)];
+alignas(ExternalAssemblerBufferImpl) static char tls_singleton_storage[sizeof(
+    ExternalAssemblerBufferImpl)];
 
-static thread_local bool tls_singleton_taken{false};
+static bool tls_singleton_taken{false};
 
 void* ExternalAssemblerBufferImpl::operator new(std::size_t count) {
   DCHECK_EQ(count, sizeof(ExternalAssemblerBufferImpl));

@@ -518,9 +518,9 @@ size_t Isolate::HashIsolateForEmbeddedBlob() {
   return hash;
 }
 
-thread_local Isolate::PerIsolateThreadData* g_current_per_isolate_thread_data_
-    V8_CONSTINIT = nullptr;
-thread_local Isolate* g_current_isolate_ V8_CONSTINIT = nullptr;
+Isolate::PerIsolateThreadData* g_current_per_isolate_thread_data_ V8_CONSTINIT =
+    nullptr;
+Isolate* g_current_isolate_ V8_CONSTINIT = nullptr;
 
 V8_TLS_DEFINE_GETTER(Isolate::TryGetCurrent, Isolate*, g_current_isolate_)
 

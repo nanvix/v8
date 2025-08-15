@@ -94,8 +94,7 @@ bool TimedHistogram::ToggleRunningState(bool expect_to_run) const {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wexit-time-destructors"
 #endif
-  static thread_local std::unordered_map<const TimedHistogram*, bool>
-      active_timer;
+  static std::unordered_map<const TimedHistogram*, bool> active_timer;
 #if __clang__
 #pragma clang diagnostic pop
 #endif

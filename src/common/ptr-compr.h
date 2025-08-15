@@ -68,7 +68,7 @@ class MainCage : public AllStatic {
 #ifdef V8_COMPRESS_POINTERS_IN_SHARED_CAGE
   static V8_EXPORT_PRIVATE uintptr_t base_ V8_CONSTINIT;
 #else
-  static thread_local uintptr_t base_ V8_CONSTINIT;
+  static uintptr_t base_ V8_CONSTINIT;
 #endif  // V8_COMPRESS_POINTERS_IN_SHARED_CAGE
 };
 using V8HeapCompressionScheme = V8HeapCompressionSchemeImpl<MainCage>;
@@ -186,7 +186,7 @@ class ExternalCodeCompressionScheme {
 #ifdef V8_COMPRESS_POINTERS_IN_SHARED_CAGE
   static V8_EXPORT_PRIVATE uintptr_t base_ V8_CONSTINIT;
 #else
-  static thread_local uintptr_t base_ V8_CONSTINIT;
+  static uintptr_t base_ V8_CONSTINIT;
 #endif  // V8_COMPRESS_POINTERS_IN_SHARED_CAGE
 };
 

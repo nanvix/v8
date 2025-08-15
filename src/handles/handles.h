@@ -488,7 +488,7 @@ class V8_TRIVIAL_ABI DirectHandleBase :
   }
 
 #ifdef ENABLE_SLOW_DCHECKS
-  inline static thread_local int number_of_handles_ = 0;
+  inline static int number_of_handles_ = 0;
 #endif
 };
 

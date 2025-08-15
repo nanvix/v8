@@ -11,7 +11,7 @@ namespace internal {
 
 namespace {
 
-thread_local int thread_id = 0;
+int thread_id = 0;
 
 std::atomic<int> next_thread_id{1};
 

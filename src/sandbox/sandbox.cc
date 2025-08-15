@@ -27,7 +27,7 @@ namespace internal {
 bool Sandbox::first_four_gb_of_address_space_are_reserved_ = false;
 
 #ifdef V8_COMPRESS_POINTERS_IN_MULTIPLE_CAGES
-thread_local Sandbox* Sandbox::current_ = nullptr;
+Sandbox* Sandbox::current_ = nullptr;
 // static
 Sandbox* Sandbox::current_non_inlined() { return current_; }
 // static

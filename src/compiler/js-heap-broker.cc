@@ -64,7 +64,7 @@ std::string JSHeapBroker::Trace() const {
 }
 
 #ifdef DEBUG
-static thread_local JSHeapBroker* current_broker = nullptr;
+static JSHeapBroker* current_broker = nullptr;
 
 CurrentHeapBrokerScope::CurrentHeapBrokerScope(JSHeapBroker* broker)
     : prev_broker_(current_broker) {

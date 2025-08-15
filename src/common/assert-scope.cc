@@ -24,7 +24,7 @@ constexpr PerThreadAsserts kClearedValue = PerThreadAsserts{};
 static_assert(!kClearedValue.contains(ASSERT_TYPE_IS_VALID_MARKER));
 
 // Thread-local storage for assert data.
-thread_local PerThreadAsserts current_per_thread_assert_data(kInitialValue);
+PerThreadAsserts current_per_thread_assert_data(kInitialValue);
 
 }  // namespace
 

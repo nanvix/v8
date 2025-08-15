@@ -29,7 +29,8 @@ TimezoneCache* OS::CreateTimezoneCache() {
 
 // Dummy implementation
 Stack::StackSlot Stack::ObtainCurrentThreadStackStart() {
-  return nullptr;
+  void* stack_start = reinterpret_cast<uint8_t*>(0xefd00000);
+  return stack_start;
 }
 
 }  // namespace base

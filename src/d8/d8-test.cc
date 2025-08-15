@@ -1477,7 +1477,7 @@ class FastCApiObject {
 
 // The object is statically initialized for simplicity, typically the embedder
 // will take care of managing their C++ objects lifetime.
-thread_local FastCApiObject kFastCApiObject;
+FastCApiObject kFastCApiObject;
 }  // namespace
 
 // static

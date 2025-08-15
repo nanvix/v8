@@ -2987,7 +2987,7 @@ void WasmCodeManager::FlushCodeLookupCache(Isolate* isolate) {
 }
 
 namespace {
-thread_local WasmCodeRefScope* current_code_refs_scope = nullptr;
+WasmCodeRefScope* current_code_refs_scope = nullptr;
 }  // namespace
 
 WasmCodeRefScope::WasmCodeRefScope()

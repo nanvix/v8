@@ -135,7 +135,7 @@ TEST_F(IncumbentContextTest, Basic) {
 }
 
 namespace {
-thread_local std::multimap<v8::CrashKeyId, std::string> crash_keys;
+std::multimap<v8::CrashKeyId, std::string> crash_keys;
 void CrashKeyCallback(v8::CrashKeyId id, const std::string& value) {
   crash_keys.insert({id, value});
 }

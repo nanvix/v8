@@ -132,7 +132,7 @@ namespace v8 {
 namespace {
 
 // Set on worker threads to the current Worker instance.
-thread_local Worker* current_worker_ = nullptr;
+Worker* current_worker_ = nullptr;
 
 #ifdef V8_FUZZILLI
 bool fuzzilli_reprl = true;

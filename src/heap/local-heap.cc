@@ -28,7 +28,7 @@
 namespace v8 {
 namespace internal {
 
-thread_local LocalHeap* g_current_local_heap_ V8_CONSTINIT = nullptr;
+LocalHeap* g_current_local_heap_ V8_CONSTINIT = nullptr;
 
 V8_TLS_DEFINE_GETTER(LocalHeap::Current, LocalHeap*, g_current_local_heap_)
 

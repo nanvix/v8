@@ -176,7 +176,7 @@ inline bool IsTrapHandlerEnabled() {
 // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100641
 extern __thread int g_thread_in_wasm_code;
 #else
-extern thread_local int g_thread_in_wasm_code;
+extern int g_thread_in_wasm_code;
 #endif
 
 // Return the address of the thread-local {g_thread_in_wasm_code} variable. This

@@ -10,7 +10,7 @@ namespace base {
 namespace {
 
 // A pointer to current thread's stack beginning.
-thread_local void* thread_stack_start = nullptr;
+void* thread_stack_start = nullptr;
 
 }  // namespace
 
@@ -26,10 +26,7 @@ Stack::StackSlot Stack::GetStackStartUnchecked() {
 Stack::StackSlot Stack::GetStackStart() { return GetStackStartUnchecked(); }
 
 // static
-int OS::GetCurrentThreadId() {
-  static thread_local int id = GetCurrentThreadIdInternal();
-  return id;
-}
+int OS::GetCurrentThreadId() { return GetCurrentThreadIdInternal(); }
 
 }  // namespace base
 }  // namespace v8

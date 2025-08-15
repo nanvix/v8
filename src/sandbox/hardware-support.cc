@@ -54,12 +54,12 @@ void SandboxHardwareSupport::NotifyReadOnlyPageCreated(
 // heap-allocated objects (so their lifetime isn't necessarily tied to a stack
 // frame). For that to work correctly, we need to track the activation count in
 // a per-thread global variable.
-thread_local unsigned disallow_sandbox_access_activation_counter_ = 0;
+unsigned disallow_sandbox_access_activation_counter_ = 0;
 // AllowSandboxAccess scopes on the other hand cannot be nested. There must be
 // at most a single one active at any point in time. These are supposed to only
 // be used for short sequences of code that's otherwise running with an active
 // DisallowSandboxAccess scope.
-thread_local bool has_active_allow_sandbox_access_scope_ = false;
+bool has_active_allow_sandbox_access_scope_ = false;
 
 DisallowSandboxAccess::DisallowSandboxAccess() {
   pkey_ = SandboxHardwareSupport::pkey_;

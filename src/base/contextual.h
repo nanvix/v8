@@ -69,11 +69,11 @@ class V8_EXPORT_PRIVATE ContextualVariable {
   static bool HasScope() { return Top() != nullptr; }
 
  private:
-  inline static thread_local Scope* top_ = nullptr;
+  inline static Scope* top_ = nullptr;
 
 #if defined(USING_V8_SHARED)
   // Hide the access to `top_` from other DLLs/libraries, since access to
-  // thread_local variables from other DLLs/libraries does not work correctly.
+  // variables from other DLLs/libraries does not work correctly.
   static Scope*& Top() { return ExportedTop(); }
 #else
   static Scope*& Top() { return top_; }
@@ -118,7 +118,7 @@ class V8_EXPORT_PRIVATE ContextualVariableWithDefault
 
  private:
   using Base = ContextualVariable<Derived, VarType>;
-  inline static thread_local VarType default_value_{default_args...};
+  inline static VarType default_value_{default_args...};
 };
 
 // Usage: DECLARE_CONTEXTUAL_VARIABLE_WITH_DEFAULT(VarName, VarType, Args...)

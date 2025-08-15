@@ -26,7 +26,7 @@ namespace v8 {
 namespace internal {
 
 #ifdef V8_COMPRESS_POINTERS_IN_MULTIPLE_CAGES
-thread_local IsolateGroup* IsolateGroup::current_ = nullptr;
+IsolateGroup* IsolateGroup::current_ = nullptr;
 
 // static
 IsolateGroup* IsolateGroup::current_non_inlined() { return current_; }

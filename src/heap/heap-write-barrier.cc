@@ -20,7 +20,7 @@ namespace v8::internal {
 class DescriptorArray;
 
 namespace {
-thread_local MarkingBarrier* current_marking_barrier = nullptr;
+MarkingBarrier* current_marking_barrier = nullptr;
 }  // namespace
 
 MarkingBarrier* WriteBarrier::CurrentMarkingBarrier(
