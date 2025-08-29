@@ -1,17 +1,18 @@
 // src/base/platform/platform-nanvix.cc
-#include "src/base/platform/platform.h"
-#include "src/base/platform/platform-posix.h"
-#include "src/base/platform/platform-posix-time.h"
-#include "src/base/timezone-cache.h"
-#include <unistd.h>
 #include <pthread.h>
+#include <unistd.h>
+
+#include <cstdio>
+
+#include "src/base/platform/platform-posix-time.h"
+#include "src/base/platform/platform-posix.h"
+#include "src/base/platform/platform.h"
+#include "src/base/timezone-cache.h"
 
 namespace v8 {
 namespace base {
 
-int GetCurrentThreadId() {
-  return static_cast<int>(pthread_self());
-}
+int GetCurrentThreadId() { return static_cast<int>(pthread_self()); }
 
 // Dummy implementation
 void OS::AdjustSchedulingParams() {}
@@ -29,7 +30,8 @@ TimezoneCache* OS::CreateTimezoneCache() {
 
 // Dummy implementation
 Stack::StackSlot Stack::ObtainCurrentThreadStackStart() {
-  void* stack_start = reinterpret_cast<uint8_t*>(0xefd00000);
+  fprintf(stderr, "Stack::ObtainCurrentThreadStackStart() called\n");
+  void* stack_start = reinterpret_cast<uint8_t*>(0xefc00000);
   return stack_start;
 }
 

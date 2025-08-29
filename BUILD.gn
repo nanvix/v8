@@ -1628,7 +1628,7 @@ config("toolchain") {
     if (is_win) {
       # Ensure no surprising artifacts from 80bit double math with x86.
       cflags += [ "/arch:SSE2" ]
-      } else if (is_nanvix) {
+      } else if (current_os == "nanvix") {
         # Nanvix doesn't support SSE
         cflags += [
             # FIXME: Nanvix supports i686 processors with SSE and SSE2 features.
@@ -1636,7 +1636,6 @@ config("toolchain") {
             "-march=i686",
             "-mno-sse",
             "-mno-sse2",
-            "-msoft-float",
 
             # The following vector extensions are not available on i686 processors.
             # Still, we explicitly disable them, to avoid avoid compiling unsupported
@@ -6772,7 +6771,7 @@ v8_component("v8_libbase") {
     defines = [ "BUILDING_V8_BASE_SHARED" ]
   }
 
-  if (is_posix || is_fuchsia || is_nanvix) {
+  if (is_posix || is_fuchsia || current_os == "nanvix") {
     sources += [
       "src/base/platform/platform-posix.cc",
       "src/base/platform/platform-posix.h",
@@ -6785,7 +6784,7 @@ v8_component("v8_libbase") {
     }
   }
 
-  if (is_nanvix) {
+  if (current_os == "nanvix") {
     sources += [
       "src/base/debug/stack_trace_nanvix.cc",
       "src/base/platform/platform-nanvix.cc",
