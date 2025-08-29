@@ -208,6 +208,12 @@ declare_args() {
   # Specifies if the target build is a simulator build. By default it is set to
   # true if the host and target do not match and we are not cross-compiling.
   v8_target_is_simulator = ""
+
+  if (target_os == "nanvix") {
+    v8_enable_lite_mode = true
+    v8_static_library = true
+    v8_enable_fuzztest = false
+  }
 }
 
 if (v8_use_external_startup_data == "") {

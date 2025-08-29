@@ -19,7 +19,7 @@
 
 #include "src/base/platform/memory-protection-key.h"
 
-#if !V8_OS_QNX && !V8_OS_AIX && !V8_OS_ZOS
+#if !V8_OS_QNX && !V8_OS_AIX && !V8_OS_ZOS && !V8_OS_NANVIX
 #include <sys/syscall.h>
 #endif
 
@@ -31,8 +31,23 @@
 #include <mach/mach.h>
 // OpenBSD doesn't have <ucontext.h>. ucontext_t lives in <signal.h>
 // and is a typedef for struct sigcontext. There is no uc_mcontext.
-#elif !V8_OS_OPENBSD
+#elif !V8_OS_OPENBSD && !V8_OS_NANVIX
 #include <ucontext.h>
+#endif
+
+#if V8_OS_NANVIX
+typedef struct {
+  uintptr_t pc;
+  uintptr_t sp;
+  uintptr_t fp;
+} mcontext_t;
+
+typedef struct {
+  int uc_flags;
+  struct ucontext* uc_link;
+  stack_t uc_stack;
+  mcontext_t uc_mcontext;
+} ucontext_t;
 #endif
 
 #include <unistd.h>
@@ -350,7 +365,7 @@ class SignalHandler {
     struct sigaction sa;
     sa.sa_sigaction = &HandleProfilerSignal;
     sigemptyset(&sa.sa_mask);
-#if V8_OS_QNX
+#if V8_OS_QNX || V8_OS_NANVIX
     sa.sa_flags = SA_SIGINFO | SA_ONSTACK;
 #else
     sa.sa_flags = SA_RESTART | SA_SIGINFO | SA_ONSTACK;
@@ -567,6 +582,10 @@ void SignalHandler::FillRegisterState(void* context, RegisterState* state) {
   state->sp = reinterpret_cast<void*>(mcontext.jmp_context.gpr[1]);
   state->fp = reinterpret_cast<void*>(mcontext.jmp_context.gpr[31]);
   state->lr = reinterpret_cast<void*>(mcontext.jmp_context.lr);
+#elif V8_OS_NANVIX
+  state->pc = reinterpret_cast<void*>(mcontext.pc);
+  state->sp = reinterpret_cast<void*>(mcontext.sp);
+  state->fp = reinterpret_cast<void*>(mcontext.fp);
 #endif  // V8_OS_AIX
 }
 

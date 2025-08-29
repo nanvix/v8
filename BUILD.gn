@@ -1628,7 +1628,32 @@ config("toolchain") {
     if (is_win) {
       # Ensure no surprising artifacts from 80bit double math with x86.
       cflags += [ "/arch:SSE2" ]
-    }
+      } else if (is_nanvix) {
+        # Nanvix doesn't support SSE
+        cflags += [
+            # FIXME: Nanvix supports i686 processors with SSE and SSE2 features.
+            "-m32",
+            "-march=i686",
+            "-mno-sse",
+            "-mno-sse2",
+            "-msoft-float",
+
+            # The following vector extensions are not available on i686 processors.
+            # Still, we explicitly disable them, to avoid avoid compiling unsupported
+            # code paths in third-party libraries (e.g. Highway).
+            "-mno-sse3",
+            "-mno-ssse3",
+            "-mno-sse4",
+            "-mno-sse4.1",
+            "-mno-sse4.2",
+            "-mno-avx",
+            "-mno-avx2",
+
+            # We use the following flags to improve our debugging experience.
+            "-fasynchronous-unwind-tables",
+            "-mstackrealign",
+        ]
+      }
   }
   if (v8_current_cpu == "x64") {
     defines += [ "V8_TARGET_ARCH_X64" ]
@@ -6747,7 +6772,7 @@ v8_component("v8_libbase") {
     defines = [ "BUILDING_V8_BASE_SHARED" ]
   }
 
-  if (is_posix || is_fuchsia) {
+  if (is_posix || is_fuchsia || is_nanvix) {
     sources += [
       "src/base/platform/platform-posix.cc",
       "src/base/platform/platform-posix.h",
@@ -6758,6 +6783,15 @@ v8_component("v8_libbase") {
         "src/base/platform/platform-posix-time.h",
       ]
     }
+  }
+
+  if (is_nanvix) {
+    sources += [
+      "src/base/debug/stack_trace_nanvix.cc",
+      "src/base/platform/platform-nanvix.cc",
+    ]
+
+    defines = [ "_POSIX_C_SOURCE=200809L", "V8_OS_NANVIX" ]
   }
 
   if (is_linux || is_chromeos) {
