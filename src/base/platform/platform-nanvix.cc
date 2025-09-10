@@ -9,6 +9,12 @@
 #include "src/base/platform/platform.h"
 #include "src/base/timezone-cache.h"
 
+/* FIXME: Remove the following import once it is available from NewLib headers.
+ */
+extern "C" {
+extern int pthread_getattr_np(pthread_t thread, pthread_attr_t* attr);
+}
+
 namespace v8 {
 namespace base {
 
@@ -30,9 +36,19 @@ TimezoneCache* OS::CreateTimezoneCache() {
 
 // Dummy implementation
 Stack::StackSlot Stack::ObtainCurrentThreadStackStart() {
-  fprintf(stderr, "Stack::ObtainCurrentThreadStackStart() called\n");
-  void* stack_start = reinterpret_cast<uint8_t*>(0xefc00000);
-  return stack_start;
+  pthread_attr_t attr = {
+      0,
+  };
+  int error = pthread_getattr_np(pthread_self(), &attr);
+  if (!error) {
+    void* base;
+    size_t size;
+    error = pthread_attr_getstack(&attr, &base, &size);
+    CHECK(!error);
+    pthread_attr_destroy(&attr);
+    return reinterpret_cast<uint8_t*>(base) + size;
+  }
+  return nullptr;
 }
 
 }  // namespace base
