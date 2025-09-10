@@ -1629,28 +1629,10 @@ config("toolchain") {
       # Ensure no surprising artifacts from 80bit double math with x86.
       cflags += [ "/arch:SSE2" ]
       } else if (current_os == "nanvix") {
-        # Nanvix doesn't support SSE
+        # Disable SSE and SSE2 on Nanvix because they are throwing bad_array_new_length.
         cflags += [
-            # FIXME: Nanvix supports i686 processors with SSE and SSE2 features.
-            "-m32",
-            "-march=i686",
             "-mno-sse",
             "-mno-sse2",
-
-            # The following vector extensions are not available on i686 processors.
-            # Still, we explicitly disable them, to avoid avoid compiling unsupported
-            # code paths in third-party libraries (e.g. Highway).
-            "-mno-sse3",
-            "-mno-ssse3",
-            "-mno-sse4",
-            "-mno-sse4.1",
-            "-mno-sse4.2",
-            "-mno-avx",
-            "-mno-avx2",
-
-            # We use the following flags to improve our debugging experience.
-            "-fasynchronous-unwind-tables",
-            "-mstackrealign",
         ]
       }
   }
